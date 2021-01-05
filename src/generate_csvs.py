@@ -1,6 +1,10 @@
-# Create CSV files for the roster, homework grades and exam, quiz and other class
-# assignment grades. Dictionary keys and values will be headers and values, respectively,
-# in CSV files.
+'''
+Objective:  Generate csv files containing fake data
+
+Using Python, create CSV files for the roster, homework grades and exam, quiz and other
+class assignment grades. Dictionary keys and values will be headers and values, respectively,
+in CSV files.
+'''
 
 import numpy as np
 import string
@@ -13,7 +17,7 @@ num_chaps = 6
 
 
 def roster():
-    '''Create a CSV file resembling a class roster. 
+    '''Create a CSV file resembling a class roster.
 
     8 student names are randomly generated along with their ids, academic program of interest
     and email addresses.
@@ -33,7 +37,7 @@ def roster():
              'Vincent', 'Gianna', 'Giovanni', 'Alina', 'Ezra', 'Jocelyn', 'Thomas',
              'Alexandra', 'Hudson', 'Anna', 'Miguel', 'Melody', 'Jaxon', 'Madelyn', 'Ayden',
              'Leilani', 'Nolan', 'Jade', 'Emiliano', 'Liliana', 'Alejandro', 'Lillian',
-             'Ryder', 'Angelina', 'Abraham', 'Sophie']
+             'Ryder', 'Angelina', 'Abraham', 'Sophie', 'Melanie', 'Allison', 'Herman']
 
     middle = list(string.ascii_uppercase)
 
@@ -96,7 +100,7 @@ def roster():
         roster_lst.append(row)
 
     # Save the roster to a csv file
-    with open('data/generated_roster.csv', 'w') as csvfile:
+    with open('../data/generated_roster.csv', 'w') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=roster_header)
         writer.writeheader()
         for data in roster_lst:
@@ -107,15 +111,15 @@ def roster():
 
 
 def assign_score(max_pts, mu, sigma):
-    '''Generates an assignment score (random floats > 0).
+    '''Generates an assignment score(random floats > 0).
 
-    This function can be used to create homework, quiz, discussion, laboratory assignments, 
+    This function can be used to create homework, quiz, discussion, laboratory assignments,
     extra credit and exam scores of varying points.
 
     Keyword arguments:
-    max_pts -- int. assignment maximum score
-    mu      -- float. assignment mean score
-    sigma   -- float. assignment standard deviation
+    max_pts - - int. assignment maximum score
+    mu - - float. assignment mean score
+    sigma - - float. assignment standard deviation
     '''
 
     # Randomly generate an assignment score between 0.0 and max_pts
@@ -150,7 +154,7 @@ def hmwks_xcs():
 
     # Dictionary storing the max_points, average points and standard deviation for the
     # reading, homework and extra credit assignments
-    hmwk_params = {'reading': [0.00, 0.00, 0.00], 'hmwk': [5.00, 4.416, 1.423],
+    hmwk_params = {'reading': [0.00, 0.00, 0.00], 'hmwk': [5.00, 4.416, 0.731],
                    'xc': [2.00, 1.647, 0.770]}
 
     # Initialize lists
@@ -212,7 +216,7 @@ def hmwk_to_csv():
     # Save the homework scores to a csv file, but first pull the headers from the dictionary
     header = list(hmwk_lst[0].keys())
 
-    with open('data/generated_hmwk_scores.csv', 'w') as csvfile:
+    with open('../data/generated_hmwk_scores.csv', 'w') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=header)
         writer.writeheader()
         for data in hmwk_lst:
@@ -233,13 +237,13 @@ def other_scores():
 
     # Dictionary storing the max_points, average points and standard deviation for the
     # quiz, lab and discussion assignments as well as the midterm and cumulative exams
-    assign_params = {'quiz': [5.0, 4.00, 1.492], 'labs': [5.0, 4.354, 1.946],
-                     'discussions': [2.0, 1.833, 0.580]}
+    assign_params = {'quiz': [5.0, 4.00, 1.092], 'labs': [5.0, 4.354, 0.946],
+                     'discussions': [2.0, 1.833, 0.280]}
 
-    midt_params = {'midt mc': [90.0, 64.25, 10.58],
+    midt_params = {'midt mc': [90.0, 70.25, 20.58],
                    'midt sa': [60.0, 39.87, 20.03]}
 
-    cumulative_params = {"cumulative": [100.0, 70.64, 21.78]}
+    cumulative_params = {"cumulative": [100.0, 76.64, 24.78]}
 
     # Initialize lists
     assignments, scores = [], []
@@ -292,9 +296,9 @@ def other_scores():
 def other_to_csv():
     '''Creates a list of dictionaries where keys are headers and values are names, scores.
 
-    This function calls the other_scores function to create a list of dictionaries where keys 
-    are column headers consisting of student and assignment names and values are the student 
-    names and scores for each assignment. This function also calls the hmwk_to_csv function to 
+    This function calls the other_scores function to create a list of dictionaries where keys
+    are column headers consisting of student and assignment names and values are the student
+    names and scores for each assignment. This function also calls the hmwk_to_csv function to
     maintain a consistent set of student names and ids.
     '''
 
@@ -308,7 +312,7 @@ def other_to_csv():
     # Create a list of scores for len(name) number of students; this is consistent with the
     # global variable, num_students.
     # Add rows of scores for each student
-    for i in range(len(names)):
+    for _ in range(len(names)):
         other_lst.append(other_scores())
 
     # Add student names and student ids to placeholder from other_scores function
@@ -320,7 +324,7 @@ def other_to_csv():
     # Save the homework scores to a csv file, but first pull the headers from the dictionary
     header = list(other_lst[0].keys())
 
-    with open('data/generated_other_scores.csv', 'w') as csvfile:
+    with open('../data/generated_other_scores.csv', 'w') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=header)
         writer.writeheader()
         for data in other_lst:
