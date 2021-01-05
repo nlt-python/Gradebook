@@ -5,7 +5,7 @@ Using pandas, this script will load three .csv files into three separate
 dataframes, remove unnecessary columns in the individual dataframes, merge
 them into a single dataframe and export the dataframe as an .xlsx file.
 
-The .csv files are located in .../data and consist of
+The .csv files are located in ../data and consist of
     * roster
     * homework and extra credit grades hosted by a third-party provider, publisher
     * quiz, lab, discussion and exam grades from a learning management system (LMS)
@@ -16,7 +16,7 @@ import pandas as pd
 
 ###  Load the data in three separate dataframes  ###
 
-# Global variables of file paths for the roster, LMS assignment scores and homework scores
+# Global variables of file paths for the roster, homework scores and LMS assignment scores
 roster_csv = "../data/generated_roster.csv"
 hmwk_xc_scores = "../data/generated_hmwk_scores.csv"
 lms_scores = "../data/generated_other_scores.csv"
@@ -64,14 +64,9 @@ def load_hmwk(hmwk_filename):
     hmwk_filename -- string. Contains file path and name for the hmwk file.
 
     This function loads the grades from the homework and extra credit assignments
-    administered through a third-party provider into a dataframe. The scores from the
-    third-party provider can link to the school's LMS but there are instances in which
-    student scores are not fully or accurately transferred into the LMS; usually 1 or 2
-    students' assignments are missing in the LMS even though students clearly completed
-    the assignments on time.
-
-    This function retains student names, all lower-cased, the homework and their extra 
-    credit (XC) assignments scores.
+    administered through a third-party provider into a dataframe. Student names, 
+    all lower-cased, the homework and their extra credit (XC) assignments scores
+    are retained.
 
     The maximum points for each assignment are not designated in a separate row.
     Instead, they are listed in the title of the assignment.
@@ -92,7 +87,7 @@ def load_hmwk(hmwk_filename):
         index_col="Name"
     )
 
-    # Drop all columns only containing NaNs
+    # Drop all columns only containing NaNs (reading assignment columns)
     hmwk_df.dropna(axis=1, how="all", inplace=True)
 
     # Remove extraneous wording in column headers to create more succinct headers
@@ -151,7 +146,7 @@ def merge_grades(roster, exams_qzzes, hmwk):
     Keyword arguments:
     roster      -- pandas dataframe. Contains generated roster information
     exams_qzzes -- pandas dataframe. Contains generated assignment scores
-    hmwk        -- pandas dataframe. Contains genreated homework and extra credit scores
+    hmwk        -- pandas dataframe. Contains generated homework & extra credit scores
     '''
 
     # NB: Student Name and Student both appear as columns and both contain student names.
@@ -179,14 +174,11 @@ if __name__ == "__main__":
     # print("---------- ROSTER ----------")
     # print(roster)
     # print()
-    # print()
     # print("---------- HOMEWORK SCORES ----------")
     # print(hmwk_xc)
     # print()
-    # print()
     # print("---------- LMS SCORES ----------")
     # print(exams_quizzes)
-    # print()
     # print()
     # print("---------- MERGED DATAFRAME ----------")
     # print(merged_df)
