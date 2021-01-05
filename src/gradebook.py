@@ -32,13 +32,17 @@ def points_and_weights(df):
     total for each category of assignments in new columns.
 
     The categorical point totals are combined into a total point column which is used
-    to calculate a final score according to the points-based grading system whereby a
-    "Final Score (%)", is calculated as the ratio of the points accrued by the student
-    and the total possible points, max_points, excluding the extra credit.
+    to calculate a final score according to the points-based grading system whereby
+    "Final Score (%)" is calculated as the ratio of the points accrued by the student
+    and the total possible points, max_points. NB: max_points does not include the
+    extra credit
 
     The categorical point totals are also used to calculate a weights-based total. A
     dictionary, weights, is created where the weight of each category of assignments
-    is calculated according to a percentage of the max_points.
+    is calculated according to a percentage of the max_pts. These weights can be
+    adjusted provided the sum of the weights equals 1. The "Weighted Score %" is
+    calculated as the ratio of the points accrued by the student in a category and the
+    total possible points in that category multiplied by its categorical weight.
     '''
 
     # Point distribution for each assignment type
@@ -81,9 +85,9 @@ def points_and_weights(df):
     # Calculate the final score according to a points-based system
     df['Final Score (%)'] = round((df["TTL Points"] / max_pts), 4)
 
-    # Create weights for each assignment category.
-    # Weights for the exams are divided by 3 so that each exam will have the same weight
-    # even though the cumulative exam is worth 50 points less than Midterms #1 and #2.
+    # Create weights for each assignment category including the extra credit. Weights
+    # are calculated as the total points per category divided by max_pts. Weights for
+    # the exams are divided by 3 so that each exam will have the same weight.
     weights = {}
     for category, points in max_dict.items():
         if ('MidT' in category) | ('Cumulative' in category):
@@ -92,6 +96,7 @@ def points_and_weights(df):
         else:
             weights[category] = round(points / max_pts, 6)
 
+    # Calculate the final score according to a pseudo weights-based system
     df['Weighted Score (%)'] = 0
     for category in new_cols:
         df['Weighted Score (%)'] += round((df[category] /
@@ -101,6 +106,7 @@ def points_and_weights(df):
 
 
 def mapping_grades(final_percent):
+    '''This function maps letter grades to series data'''
 
     letter_dict = {0.88: "A", 0.77: "B", 0.66: "C", 0.55: "D", 0: "F"}
 
@@ -108,16 +114,19 @@ def mapping_grades(final_percent):
         if final_percent >= percent:
             return letter
 
-    return df
-
 
 if __name__ == "__main__":
 
-    # Uncomment these lines if using points grading scheme
+    # Execute the function to obtain point totals and weighted totals
     final_df = points_and_weights(df)
+
+    # Generate letter grades for both grading schemes. Use the higher of the two
+    # grades for submission.
     final_df['Points Grade'] = final_df["Final Score (%)"].map(mapping_grades)
     final_df['Weights Grade'] = final_df["Weighted Score (%)"].map(
         mapping_grades)
-    print(final_df)
 
+    # print(final_df)
+
+    # Save the completed gradebook to an .xlsx spreadsheet
     final_df.to_excel('../data/final_grades.xlsx')
