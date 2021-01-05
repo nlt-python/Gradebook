@@ -143,6 +143,8 @@ def load_lms(lms_filename):
 def merge_grades(roster, exams_qzzes, hmwk):
     '''This function merges three dataframes: roster, exams scores and homework scores.
 
+    The merged dataframe is saved as an .xlsx spreadsheet.
+
     Keyword arguments:
     roster      -- pandas dataframe. Contains generated roster information
     exams_qzzes -- pandas dataframe. Contains generated assignment scores
