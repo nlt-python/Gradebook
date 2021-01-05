@@ -134,7 +134,7 @@ def assign_score(max_pts, mu, sigma):
     else:
         point = round(np.random.normal(mu, sigma), 2)
 
-        # Limit the range of the score to a non-negative value that is less than the max points
+        # Limit range of score to a non-negative value less or equal to max points
         if point > max_pts:
             score = max_pts
         elif point < 0:
@@ -172,7 +172,7 @@ def hmwks_xcs():
             scores.append(assign_score(list(v)[0],
                                        list(v)[1], list(v)[2]))
 
-    # Flatten the list of headers
+    # Flatten the list of assighment headers
     headers = [title for sublist in assignments for title in sublist]
 
     # Create k, v for student name at the beginning of the dict. Third-party program only
@@ -232,7 +232,7 @@ def other_scores():
     This function uses the assign_score function to create a dictionary of scores for
     quizzes, discussions, laboratory assignments, midterms and a cumulative exam for a
     single student. These assignment scores were created separate from the homework
-    scores to mimic assignments are administered through an LMS.
+    scores to mimic assignments administered through an LMS.
     '''
 
     # Dictionary storing the max_points, average points and standard deviation for the
@@ -278,11 +278,11 @@ def other_scores():
                                cumulative_params['cumulative'][1],
                                cumulative_params['cumulative'][2]))
 
-    # Flatten the list of headers
+    # Flatten the list of LMS assignment headers
     headers = [title for sublist in assignments for title in sublist]
 
-    # Create k, v (headers, scores, respectively) for student name and student id at the
-    # beginning of the dict
+    # Create k, v (headers, scores, respectively) for student name, student id and course
+    # section number at the beginning of the dict
     headers.insert(0, 'Name')
     headers.insert(1, 'Student ID Number')
     headers.insert(2, 'Course Section')
@@ -302,7 +302,8 @@ def other_to_csv():
     maintain a consistent set of student names and ids.
     '''
 
-    # Calls the roster function to maintain a consistent set of student names and student IDs
+    # Calls the hmwk_to_csv function to maintain a consistent set of student names and
+    # student IDs
     tups = hmwk_to_csv()
     names, sids = tups[0], tups[1]
 
@@ -333,5 +334,5 @@ def other_to_csv():
 
 if __name__ == "__main__":
 
-    print(other_to_csv())
-    print
+    other_to_csv()
+    print()
