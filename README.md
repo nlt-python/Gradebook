@@ -33,7 +33,7 @@ Due to the confidential nature of student information and grades, I created thre
 * homework and extra credit assignment scores from a third-party program – **‘generated_hmwk_scores.csv’**
 * other assignments and their scores administered through our LMS – **‘generated_other_scores.csv’**
 
-Although the names, assignments and grades are fake, the nuances in each type of CSV file is preserved to demonstrate some of the data cleaning aspects of this project. All assignment scores are randomly generated with lower and upper limits using numpy’s np.random.normal(). The Python script to generate these CSV files is located in generate_csvs.py. For example,
+Although the names, assignments and grades are fake, the nuances in each type of CSV file is preserved to demonstrate some of the data cleaning aspects of this project. All assignment scores are randomly generated with lower and upper limits using numpy’s *np.random.normal()*. The Python script to generate these CSV files is located in ***generate_csvs.py***. For example,
 
 * Student names may be different in different data sources. The school roster contains student names as “Last Name, First Name” and middle initial, where applicable, whereas the LMS omits the middle initial. Students provide their own names for the third-party publisher that hosts the homework and may sometimes use their married name or revert to their birth name; this discrepancy is not addressed in this project.
 * Some of the columns in the LMS CSV file may have different headers compared to the ones in the homework file, but they contain the same or similar data. Also, both the LMS and homework CSV files refer to student names as “Name” whereas the roster file uses “Student Name”.
@@ -61,14 +61,14 @@ A code snippet illustrating the first and last two bullet points is included bel
   </p>
 &nbsp  
 
-The dataframes were indexed on student IDs and student names and merged using pd.merge(). The merged dataframe was saved to an .xlsx file, **'merged_scores.xlsx'**.
+The dataframes were indexed on student IDs and student names and merged using pandas' *pd.merge()*. The merged dataframe was saved to an .xlsx file, **'merged_scores.xlsx'**.
 <p></p>
 &nbsp  
 
 
 ## Gradebook:
 
-The gradebook was created from the **'merged_scores.xlsx'** spreadsheet. The final format of the gradebook data table contains all the data for a single student in a row. The columns represent each assignment score. In this project, they are quizzes, labs, discussions, homework, extra credit, midterms and a final. There is also information about each student’s name, student identification number, course section number, e-mail address and declared academic program. Calculations for categorical point totals, an overall point total and final letter grades are stored in separate columns. Categorical point totals and overall point totals and scores were calculated using a combination of the pandas filter function .filter() and regular expressions.
+The gradebook was created from the **'merged_scores.xlsx'** spreadsheet. The final format of the gradebook data table contains all the data for a single student in a row. The columns represent each assignment score. In this project, they are quizzes, labs, discussions, homework, extra credit, midterms and a final. There is also information about each student’s name, student identification number, course section number, e-mail address and declared academic program. Calculations for categorical point totals, an overall point total and final letter grades are stored in separate columns. Categorical point totals and overall point totals and scores were calculated using a combination of the pandas filter function *.filter()* and regular expressions.
 
 Letter grades were mapped onto the numerical scores from both a points-based and weights-based system according to the scale 
 
@@ -81,7 +81,7 @@ The Python script to calculate scores and map letter grades is located in ***gra
 
 In a points-based system, each individual assignment has a pre-determined value to the final grade. The overall grade is determined by the ratio of the student’s total points to the total possible points offered in the course. This method is easier for students to understand but is not readily amenable to adding or removing assignments during the semester since it affects the total points possible offered in the course. In a weights-based system, each category of assignments is assigned a percentage or weight to determine its impact on the students’ final grade. The overall grade is determined by the ratio of the student’s total points for a category to the total possible points for that category times its weight and the results for each category are summed.
 
-In this project, the weights-based system was used sparingly in that the difference in between these two systems lie solely on the exams. The midterm and final exams were weighted equally even though their point distribution was different. This was done to account for students that struggle at the beginning of the semester but finish strong. In a points-based system, the midterms have a greater impact on the students’ overall grade. Since the difference between the two grading systems was subtle, only one student was affected (“B” versus a “C” letter grade in **'final_grades.xlsx'** below). In the end, students are issued the higher grade of the two systems.
+In this project, the weights-based system was used sparingly in that the difference between these two systems lie solely on the exams. The midterm and final exams were weighted equally even though their point distribution was different. This was done to account for students that struggle at the beginning of the semester but finish strong. In a points-based system, the midterms have a greater impact on the students’ overall grade. Since the difference between the two grading systems was subtle, only one student was affected (“B” versus a “C” letter grade in **'final_grades.xlsx'** below). In the end, students are issued the higher grade of the two systems.
 
 <p align="center">
   <img src="https://github.com/nlt-python/Gradebook/blob/main/imgs/img_gradebook.PNG">
@@ -114,7 +114,7 @@ The current score is calculated by taking the ratio of the points accrued by eac
   </p>
 &nbsp  
 
-When it is no longer possible for students to obtain a letter grade, the number of points needed will exceed the number of points remaining. This value is replaced by the string ‘-‘ for easier viewing. The image below captures the students’ current score and points and percentages needed for various letter grades after two weeks into the semester, after the first midterm, of this example class (**'scores_2021-01-06_08-32-AM.xlsx'**).
+When the number of points needed exceeds the number of points remaining, it is no longer possible for students to obtain that letter grade. This points needed value is then replaced by the string ‘-‘ for easier viewing. The image below captures the students’ current score and points and percentages needed for various letter grades after two weeks into the semester, after the first midterm, of this example class (**'scores_2021-01-06_08-32-AM.xlsx'**).
 
 <p align="center">
   <img src="https://github.com/nlt-python/Gradebook/blob/main/imgs/img_extrapolate.PNG">
@@ -126,8 +126,9 @@ The resulting data for extrapolating student grades after the second midterm and
 &nbsp  
 
 ## Takeaways:
-This project has helped me more accurately and efficiently calculate student grades from multiple sources. Using Python to create my extrapolation table has saved me at least 30-minutes every week.
-In the process, I am considerably more comfortable using the map and zip functions, pandas filter function with regex and numpy’s random functions.
+* This project has helped me more accurately and efficiently calculate student grades from multiple sources. 
+* Using Python to create my extrapolation table has saved me at least 30-minutes every week.
+* I am more adept at using the map and zip functions, pandas filter function with regex and numpy’s random functions.
 
 
 
