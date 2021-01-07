@@ -53,8 +53,8 @@ def predict_grades(df):
 
     The amount of points each student needs to obtain a specific letter grade as the 
     course progresses is also calculated. The "Pts Needed (for a letter grade)" is calculated 
-    according to a scale of 90% = A, 80% = B, 70% = C, and 60% = D. These points are also
-    converted to a percentage.
+    according to a scale of >= 0.9 is an A; >= 0.8 is a B; >= 0.7 is a C; and >= 0.6 is a D. 
+    These needed points are also converted to a percentage.
     '''
 
     # Point distribution for each assignment type
@@ -139,7 +139,7 @@ def predict_grades(df):
     # Scale for the letter grades A through D in the class.
     letter_dict = {"A": 0.90, "B": 0.80, "C": 0.70, "D": 0.60}
 
-    # Calculate the number of points (and its resepective percentage) a student will
+    # Calculate the number of points (and its respective percentage) a student will
     # need at this point in the semester to obtain a specific letter grade.
     for lett in letter_dict:
         df[f'Pts Needed ({lett})'] = (letter_dict[lett]
